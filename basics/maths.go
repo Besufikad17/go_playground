@@ -26,3 +26,11 @@ func factorial(n int) int {
 	}
 	return fact
 }
+
+func getFactors(n int) {
+	for i := 1; i <= n; i++ {
+		if (n % i) == 0 {
+			print(i, " ")
+		}
+	}
+}
