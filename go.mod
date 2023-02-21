@@ -1,3 +1,3 @@
-module goplayground/basics
+module basics
 
 go 1.19

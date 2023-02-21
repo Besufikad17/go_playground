@@ -1,16 +1,20 @@
-package main
+package basics
 
 import "math"
 
-func area_of_triangle(width float32, height float32) float32 {
+func init() {
+	println("Math pacakge loaded :)")
+}
+
+func AREA_OF_TRIANGLE(width float32, height float32) float32 {
 	return 0.5 * width * height
 }
 
-func volume_of_sphere(radius float64) float64 {
+func VOLUME_OF_SPHERE(radius float64) float64 {
 	return math.Round((4 / 3) * (math.Pow(radius, 3)) * math.Pi)
 }
 
-func abs(n int) int {
+func ABS(n int) int {
 	if n < 0 {
 		return -n
 	} else {
@@ -18,7 +22,7 @@ func abs(n int) int {
 	}
 }
 
-func factorial(n int) int {
+func FACTORIAL(n int) int {
 	var fact int = 1
 	for n > 0 {
 		fact = fact * n
@@ -27,7 +31,7 @@ func factorial(n int) int {
 	return fact
 }
 
-func getFactors(n int) {
+func GET_FACTORS(n int) {
 	for i := 1; i <= n; i++ {
 		if (n % i) == 0 {
 			print(i, " ")
