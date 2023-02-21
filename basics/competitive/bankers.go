@@ -9,9 +9,9 @@ import (
 )
 
 var ALLOCATION = [5][4]int{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
+var NEEDS = [5][4]int{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
 var AVALIABLE [][]int
 var MAX [5][4]int
-var NEEDS [5][4]int
 
 // function that parses a given string array to int array
 func to_int_arr(arr []string) []int {
@@ -24,6 +24,14 @@ func to_int_arr(arr []string) []int {
 		}
 	}
 	return int_arr
+}
+
+func update_need() {
+	for i := 0; i < 5; i++ {
+		for j := 0; j < 4; j++ {
+			NEEDS[i][j] = MAX[i][j] - ALLOCATION[i][j]
+		}
+	}
 }
 
 func main() {
@@ -83,6 +91,14 @@ func main() {
 				print(" ")
 			}
 			println()
+			print("NEEDS = ")
+			for i := 0; i < len(NEEDS); i++ {
+				for j := 0; j < len(NEEDS[0]); j++ {
+					print(NEEDS[i][j], ",")
+				}
+				print(" ")
+			}
+			println()
 			print("AVALIABLE = ")
 			for i := 0; i < len(AVALIABLE); i++ {
 				for j := 0; j < 4; j++ {
@@ -110,6 +126,7 @@ func main() {
 							ALLOCATION[r][k] = ALLOCATION[r][k] + rs[k]
 							AVALIABLE[0][k] = AVALIABLE[0][k] - rs[k]
 						}
+						update_need()
 						println("Done!!")
 					} else {
 						println("Process asking more than the avaliable resources!!")
@@ -133,6 +150,7 @@ func main() {
 						ALLOCATION[r][k] = ALLOCATION[r][k] - rs[k]
 						AVALIABLE[0][k] = AVALIABLE[0][k] + rs[0]
 					}
+					update_need()
 					println("Done!!")
 				} else {
 					println("Process didn't allocate this much resources, please try again!!")
