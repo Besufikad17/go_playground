@@ -36,3 +36,11 @@ func TOP() int {
 	}
 	return val
 }
+
+func PRINT() {
+	print("Stack = ")
+	for i := 0; i < len(STACK); i++ {
+		print(STACK[i], " ")
+	}
+	println()
+}

@@ -36,33 +36,45 @@ func print_menu() string {
 	println("2. For array operations")
 	println("3. For stack operations")
 	println("4. EXIT")
-	input := bufio.NewScanner(os.Stdin)
-	input.Scan()
-	return input.Text()
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	return scanner.Text()
 }
 
 func print_math_menu() string {
+	println("Math utilities")
 	println("1. Area of triangle")
 	println("2. Volume of a sphere")
 	println("3. Absolute value")
 	println("4. Factorial")
 	println("5. Get factors")
 	println("6. Back to main menu")
-	reader := bufio.NewScanner(os.Stdin)
-	reader.Scan()
-	return reader.Text()
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	return scanner.Text()
 }
 
 func print_array_menu() string {
+	println("Array utilities")
 	println("1. Linear search")
 	println("2. Binary search")
 	println("3. Selection sort")
 	println("4. Insertion sort")
 	println("5. Bubble sort")
 	println("6. Back to main menu")
-	reader := bufio.NewScanner(os.Stdin)
-	reader.Scan()
-	return reader.Text()
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	return scanner.Text()
+}
+
+func print_stack_menu() string {
+	println("Stack applications")
+	println("1. Infix to Postfix")
+	println("2. Prefix to Postfix")
+	println("3. Back to main menu")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	return scanner.Text()
 }
 
 func main() {
@@ -224,7 +236,19 @@ MENU:
 				}
 			}
 		case "3":
-			println("case 3")
+			for {
+				var c2 string = print_stack_menu()
+				switch c2 {
+				case "1":
+					println("soon...")
+				case "2":
+					println("soon...")
+				case "3":
+					goto MENU
+				default:
+					println("Invalid input, please try again!!")
+				}
+			}
 		case "4":
 			os.Exit(0)
 		default:
