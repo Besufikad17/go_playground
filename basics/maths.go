@@ -6,8 +6,8 @@ func init() {
 	println("Math pacakge loaded :)")
 }
 
-func AREA_OF_TRIANGLE(width float32, height float32) float32 {
-	return 0.5 * width * height
+func AREA_OF_TRIANGLE(width float64, height float64) float64 {
+	return math.Round(0.5 * width * height)
 }
 
 func VOLUME_OF_SPHERE(radius float64) float64 {
@@ -37,4 +37,5 @@ func GET_FACTORS(n int) {
 			print(i, " ")
 		}
 	}
+	println()
 }

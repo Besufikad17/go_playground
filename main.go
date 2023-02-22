@@ -3,8 +3,10 @@ package main
 import (
 	"basics/basics"
 	"bufio"
-	"fmt"
+	"log"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func print_menu() string {
@@ -25,52 +27,69 @@ func print_math_menu() string {
 	println("4. Factorial")
 	println("5. Get factors")
 	println("6. Back to main menu")
-	reader := bufio.NewReader(os.Stdin)
-	choice, err := reader.ReadString('\n')
-	if err != nil {
-		println("Err occured while reading input")
-		return ""
-	}
-	return choice
+	reader := bufio.NewScanner(os.Stdin)
+	reader.Scan()
+	return reader.Text()
 }
 
 func main() {
-	var c string = print_menu()
-	switch c {
-	case "1":
-		var c2 string = print_math_menu()
-		switch c2 {
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
+		var c string = print_menu()
+		switch c {
 		case "1":
-			var height float32
-			var width float32
-			println("Enter height and width :")
-			fmt.Scanf("%f", &height)
-			fmt.Scanf("%f", &width)
-			println("Area = ", basics.AREA_OF_TRIANGLE(width, height))
-		case "2":
-			var radius float32
-			println("Enter radius of a sphere :")
-			fmt.Scanf("%f", radius)
-			println("Volume = ", basics.VOLUME_OF_SPHERE(float64(radius)))
-		case "3":
-			var n int
-			println("Enter x :")
-			fmt.Scanf("%i", n)
-			println("|x| = ", basics.ABS(n))
-		case "4":
-			var n int
-			println("Enter x :")
-			fmt.Scanf("%i", n)
-			println("factorial = ", basics.FACTORIAL(n))
-		case "5":
-			var n int
-			println("Enter x :")
-			fmt.Scanf("%i", n)
-			basics.GET_FACTORS(n)
-		case "6":
-			// exit
-		default:
-			println("Invalid input please try again")
+			for {
+				var c2 string = print_math_menu()
+				switch c2 {
+				case "1":
+					println("Enter height and width :")
+					scanner.Scan()
+					in := scanner.Text()
+					height, err := strconv.ParseFloat(strings.Split(in, " ")[0], 32)
+					width, err := strconv.ParseFloat(strings.Split(in, " ")[1], 32)
+
+					println("Area = ", basics.AREA_OF_TRIANGLE(width, height))
+					if err != nil {
+						log.Fatal(err)
+					}
+				case "2":
+					println("Enter radius of a sphere :")
+					scanner.Scan()
+					r, err := strconv.ParseFloat(scanner.Text(), 32)
+					println("Volume = ", basics.VOLUME_OF_SPHERE(r))
+					if err != nil {
+						log.Fatal(err)
+					}
+				case "3":
+					println("Enter x :")
+					scanner.Scan()
+					n, err := strconv.Atoi(scanner.Text())
+					println("|x| = ", basics.ABS(n))
+					if err != nil {
+						log.Fatal(err)
+					}
+				case "4":
+					println("Enter x :")
+					scanner.Scan()
+					n, err := strconv.Atoi(scanner.Text())
+					println("factorial = ", basics.FACTORIAL(n))
+					if err != nil {
+						log.Fatal(err)
+					}
+				case "5":
+					println("Enter x :")
+					scanner.Scan()
+					n, err := strconv.Atoi(scanner.Text())
+					basics.GET_FACTORS(n)
+					if err != nil {
+						log.Fatal(err)
+					}
+				case "6":
+					break
+				default:
+					println("Invalid input please try again")
+				}
+			}
 		}
 	}
 }
