@@ -6,7 +6,8 @@ import (
 	"log"
 	"os"
 	"strconv"
-	"strings"
+    "strings"
+    "errors"
 )
 
 var input = bufio.NewScanner(os.Stdin)
@@ -50,7 +51,7 @@ func get_matrices() ([][]int, [][]int, [][]int) {
 }
 
 func get_matrices_for_mul() ([][]int, [][]int, [][]int) {
-	println("Enter row and coloumn separating by sapce for matrix a ")
+main:println("Enter row and coloumn separating by sapce for matrix a ")
 	input.Scan()
 	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
 	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
@@ -59,6 +60,11 @@ func get_matrices_for_mul() ([][]int, [][]int, [][]int) {
 	input.Scan()
 	r2, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
 	c2, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
+
+    if r != c2 {
+        errors.New("Row of matrix a and Column of matrix b must be equal!!")
+        goto main
+    }
 
 	if err != nil {
 		log.Fatal(err)
@@ -97,6 +103,76 @@ func get_matrices_for_mul() ([][]int, [][]int, [][]int) {
 	}
 	return a, b, result
 
+}
+
+func get_single_matrix()[][] int{
+main:println("Enter row and coloumn of the matrix ")
+    input.Scan()
+	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
+	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
+    
+    if err != nil {
+		log.Fatal(err)
+	}
+
+    if r != c {
+        println("Row of matrix a and Column of matrix b must be equal!!")
+        goto main
+    }
+	a := make([][]int, r)
+
+	for i := range a {
+		a[i] = make([]int, c)
+	}
+
+	println("Enter element of matrix a ")
+	for i := range a {
+		for j := range a[0] {
+			input.Scan()
+			a[i][j], err = strconv.Atoi(input.Text())
+		}
+	}
+
+    return a
+}
+
+func det(n int, matrix [][]int) int {
+    result := 0
+    if n == 1{ 
+        result = matrix[0][0]
+    }else if n == 2 {
+        result = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]) 
+    }else{
+        for i := range matrix {
+            cofactor := make([][]int, len(matrix) - 1)
+            for j := range cofactor {
+                cofactor[j] = make([]int, len(matrix) - 1)
+            }
+            
+            r_count := 0
+            c_count := 0
+            for k := 0; k < len(matrix); k++ {
+                if k == 0 {
+                    r_count++
+                }else {
+                    for n := 0; n < len(matrix[0]); n++ {
+                        if n == i {
+                            c_count++
+                        }else{
+                            cofactor[k - r_count][n - c_count] = matrix[k][n]
+                        }
+                    }
+                    c_count = 0
+                }
+            }
+            if i == 1 {
+                result = result - (matrix[0][i] * det(len(cofactor), cofactor))
+            }else {
+                result = result + (matrix[0][i] * det(len(cofactor), cofactor))
+            }
+        }  
+    }
+    return result
 }
 
 func print_menu() string {
@@ -163,7 +239,9 @@ main_loop:
 			println()
 			goto main_loop
 		case "4":
-			println(choice)
+            matrix := get_single_matrix()
+            println("Determinant = ", det(len(matrix), matrix))
+            goto main_loop
 		case "5":
 			os.Exit(0)
 		default:
