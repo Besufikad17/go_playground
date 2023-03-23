@@ -7,106 +7,18 @@ import (
 	"os"
 	"strconv"
     "strings"
-    "errors"
 )
 
 var input = bufio.NewScanner(os.Stdin)
 
-func get_matrices() ([][]int, [][]int, [][]int) {
-	println("Enter row and coloumn separating by sapce")
-	input.Scan()
-	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
-	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	a := make([][]int, r)
-	b := make([][]int, r)
-	result := make([][]int, r)
-
-	for i := range a {
-		a[i] = make([]int, c)
-		b[i] = make([]int, c)
-		result[i] = make([]int, c)
-	}
-
-	println("Enter element of the first matrix")
-	for i := range a {
-		for j := range a[0] {
-			input.Scan()
-			a[i][j], err = strconv.Atoi(input.Text())
-		}
-	}
-
-	println("Enter element of the second matrix")
-	for i := range a {
-		for j := range a[0] {
-			input.Scan()
-			b[i][j], err = strconv.Atoi(input.Text())
-		}
-	}
-	return a, b, result
-}
-
-func get_matrices_for_mul() ([][]int, [][]int, [][]int) {
-main:println("Enter row and coloumn separating by sapce for matrix a ")
-	input.Scan()
-	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
-	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
-
-	println("Enter row and coloumn separating by sapce for matrix b")
-	input.Scan()
-	r2, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
-	c2, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
-
-    if r != c2 {
-        errors.New("Row of matrix a and Column of matrix b must be equal!!")
-        goto main
+func get_square_matrix(n int)[][] int{
+    prefix := ""
+    if n == 1 {
+        prefix = "first"
+    }else {
+        prefix = "second"
     }
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	a := make([][]int, r)
-	b := make([][]int, r2)
-	result := make([][]int, r)
-
-	for i := range a {
-		a[i] = make([]int, c)
-	}
-
-	for i := range b {
-		b[i] = make([]int, c2)
-	}
-
-	for i := range result {
-		result[i] = make([]int, c2)
-	}
-
-	println("Enter element of matrix a ")
-	for i := range a {
-		for j := range a[0] {
-			input.Scan()
-			a[i][j], err = strconv.Atoi(input.Text())
-		}
-	}
-
-	println("Enter element of matrix b ")
-	for i := range b {
-		for j := range b[0] {
-			input.Scan()
-			b[i][j], err = strconv.Atoi(input.Text())
-		}
-	}
-	return a, b, result
-
-}
-
-func get_single_matrix()[][] int{
-main:println("Enter row and coloumn of the matrix ")
+main:println("Enter row and coloumn of the",prefix,"matrix ")
     input.Scan()
 	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
 	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
@@ -119,6 +31,40 @@ main:println("Enter row and coloumn of the matrix ")
         println("Row of matrix a and Column of matrix b must be equal!!")
         goto main
     }
+	a := make([][]int, r)
+
+	for i := range a {
+		a[i] = make([]int, c)
+	}
+
+	println("Enter element of matrix a ")
+	for i := range a {
+		for j := range a[0] {
+			input.Scan()
+			a[i][j], err = strconv.Atoi(input.Text())
+		}
+	}
+
+    return a
+}
+
+func get_single_matrix(n int) [][]int {
+    prefix := ""
+    if n == 1 {
+        prefix = "first"
+    }else {
+        prefix = "second"
+    }
+    
+    println("Enter row and coloumn of the",prefix,"matrix ")
+    input.Scan()
+	r, err := strconv.Atoi(strings.Split(input.Text(), " ")[0])
+	c, err := strconv.Atoi(strings.Split(input.Text(), " ")[1])
+    
+    if err != nil {
+		log.Fatal(err)
+	}
+
 	a := make([][]int, r)
 
 	for i := range a {
@@ -193,7 +139,19 @@ main_loop:
 	for {
 		switch choice {
 		case "1":
-			var a, b, result = get_matrices()
+			var a = get_single_matrix(1)
+            var b = get_single_matrix(2)
+
+            if len(a) != len(b) || len(a[0]) != len(b[0]) {
+                println("a and b must have the same row and column number!!")
+                goto main_loop
+            }
+
+            result := make([][]int, len(a))
+
+            for i := range result {
+                result[i] = make([]int, len(a[0]))
+            }
 
 			for i := range a {
 				for j := range a[0] {
@@ -208,9 +166,21 @@ main_loop:
 			println()
 			goto main_loop
 		case "2":
-			var a, b, result = get_matrices()
+			var a = get_single_matrix(1)
+            var b = get_single_matrix(2)
 
-			for i := range a {
+            if len(a) != len(b) || len(a[0]) != len(b[0]) {
+                println("a and b must have the same row and column number!!")
+                goto main_loop
+            }
+
+            result := make([][]int, len(a))
+
+            for i := range result {
+                result[i] = make([]int, len(a[0]))
+            }			
+
+            for i := range a {
 				for j := range a[0] {
 					result[i][j] = a[i][j] - b[i][j]
 				}
@@ -223,7 +193,21 @@ main_loop:
 			println()
 			goto main_loop
 		case "3":
-			var a, b, result = get_matrices_for_mul()
+			var a = get_single_matrix(1)
+            var b = get_single_matrix(2)
+
+            if len(a) !=len(b[0]) {
+                println("row number of a and column number of b must be equal!!")
+                goto main_loop
+            }
+
+            result := make([][]int, len(a))
+
+            for i := range result {
+                result[i] = make([]int, len(b[0]))
+            }	
+
+
 			for i := range a {
 				for j := range b[0] {
 					for k := range b {
@@ -239,13 +223,14 @@ main_loop:
 			println()
 			goto main_loop
 		case "4":
-            matrix := get_single_matrix()
+            matrix := get_square_matrix(1)
             println("Determinant = ", det(len(matrix), matrix))
             goto main_loop
 		case "5":
 			os.Exit(0)
 		default:
 			println("Please enter valid choice!!")
+            goto main_loop
 		}
 	}
 }
