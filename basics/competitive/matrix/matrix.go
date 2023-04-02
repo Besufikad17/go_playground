@@ -121,13 +121,29 @@ func det(n int, matrix [][]int) int {
     return result
 }
 
+func transpose(arr [][]int) [][]int {
+    result := make([][]int, len(arr[0]))
+
+    for i := range result {
+        result[i] = make([]int, len(arr))
+    }
+
+    for i := range arr {
+        for j := range arr[0] {
+            result[j][i] = arr[i][j]
+        }
+    }
+    return result
+}
+
 func print_menu() string {
 	println("\t Welcome to Matrix util")
 	println("1. Addition")
 	println("2. Substraction")
 	println("3. Multiplication")
 	println("4. Determinant")
-	println("5. Exit")
+    println("5. Transpose")
+	println("6. Exit")
 	input.Scan()
 	return input.Text()
 }
@@ -226,7 +242,18 @@ main_loop:
             matrix := get_square_matrix(1)
             println("Determinant = ", det(len(matrix), matrix))
             goto main_loop
-		case "5":
+        case "5":
+            a := get_single_matrix(1)
+            result := transpose(a)
+
+            println("Transpose")
+			for i := range result {
+				fmt.Println(result[i])
+			}
+			println()
+
+            goto main_loop
+		case "6":
 			os.Exit(0)
 		default:
 			println("Please enter valid choice!!")
